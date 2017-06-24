@@ -1,0 +1,64 @@
+package pl.kzadros.examapp.repository;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import pl.kzadros.examapp.entities.Question;
+
+/**
+ *
+ * @author kzadros
+ */
+public class DataStore {
+    private List<Question> questions;
+    
+    public DataStore() {
+        questions = new ArrayList<>();
+        List<String> data = init();
+        
+        String[] row;
+        for (int i=0 ; i<data.size() ; i++) {
+            row = data.get(i).split(": ");
+            if (row.length != 2) {
+                System.out.println("Error: " + i);
+                continue;
+            }
+            try {
+                Question question = new Question(i, row[0], row[1]);
+                questions.add(question);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    private List<String> init() {
+        List<String>data = new ArrayList<>();
+        Collections.addAll(data, "Zapis storno czarne polega na: dokonaniu zapisu korygującego na tych samych kontach, na których dokonano błędnego zapisu, w tej samej kwocie, ale po przeciwnych stronach błędnego zapisu.",
+"Zapis storno czerwone polega na: dokonaniu zapisu korygującego na tych samych kontach i po tych samych stronach, na których wystąpiło błędne księgowanie, ale za pomocą liczb ujemnych. Dokonywany jest on kolorem czerwonym lub poprzez umieszczenie kwoty korygującej w nawiasie.",
+"Storno czarne lub czerwone stosuje się, gdy: błędy księgowe zostały ujawnione - po podsumowaniu ksiąg rachunkowych za dany okres, w wyniku inwentaryzacji, lub gdy księgi są prowadzone przy wykorzystaniu komputera.",
+"Za pomocą storna poprawia się błędy, które: nie naruszają zasady podwójnego zapisu.",
+"Storno ogólnie polega na: wprowadzeniu do ksiąg rachunkowych dowodu księgowego zawierającego korekty błędnych zapisów.",
+"Zestawienie obrotów i sald pozwala wykryć błędy dotyczące: naruszenia zasady podwójnego księgowania.",
+"Inwentaryzacja oraz potwierdzenie sald z kontrahentem pozwala wykryć błędy księgowe, które: zachowują zasadę podwójnego zapisu, ale dotyczą księgowań, np. w kwocie niewłaściwej dla danej operacji, czy też na nieodpowiednim koncie.",
+"Zaksięgowanie na nieodpowiednim koncie może być wykryte m.in. dzięki: inwentaryzacji oraz potwierdzeniu sald z kontrahentem.",
+"Błędy, dotyczące naruszenia zasady podwójnego księgowania, mogą być wykryte przez: zestawienie obrotów i sald.",
+"Zapisan korygujący na tych samych kontach i po tych samych stronach, na których wystąpiło błędne księgowanie, ale za pomocą liczb ujemnych to: storno czerwone.",
+"Dokonanie zapisu korygującego na tych samych kontach, na których dokonano błędnego zapisu, w tej samej kwocie, ale po przeciwnych stronach błędnego zapisu to: storno czarne.",
+"Podzielność pozioma polega na: prowadzeniu jednocześnie kont analitycznych i syntetycznych, np. \"Usługi obce\" i \"Usługi transportowe\", \"Usługi remontowe\"."
+        );
+        return data;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+    
+    public Question get(int number) {
+        return this.questions.get(number);
+    }
+    
+    public int size() {
+        return questions.size();
+    }
+}
